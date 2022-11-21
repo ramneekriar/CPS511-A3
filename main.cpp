@@ -30,7 +30,10 @@ float *normals;
 unsigned int *indices;
 
 // screen window identifiers
-int window2D, window3D;
+int window3D;
+
+int lastMouseX;
+int lastMouseY;
 
 int window3DSizeX = 800, window3DSizeY = 600;
 GLdouble aspect = (GLdouble)window3DSizeX / window3DSizeY;
@@ -212,4 +215,7 @@ void drawCannon()
 	glPopMatrix();
 }
 
+void glutPassiveMotionFunc(void(*func)(int x, int y)) {
+
+}
 
