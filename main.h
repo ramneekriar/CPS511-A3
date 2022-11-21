@@ -9,3 +9,4 @@ void reshape3D(int w, int h);
 //void keyboardHandler3D(unsigned char key, int x, int y);
 
 void drawGround();
+void drawCannon();

@@ -35,6 +35,8 @@ int window2D, window3D;
 int window3DSizeX = 800, window3DSizeY = 600;
 GLdouble aspect = (GLdouble)window3DSizeX / window3DSizeY;
 
+GLfloat cannonRadius = 0.5;
+GLfloat cannonHeight = 7.0;
 
 int main(int argc, char* argv[])
 {
@@ -84,6 +86,12 @@ GLfloat light_diffuse1[] = { 1.0, 1.0, 1.0, 1.0 };
 GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 GLfloat model_ambient[] = { 0.5, 0.5, 0.5, 1.0 };
 
+// Gun Mesh material
+GLfloat gun_mat_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+GLfloat gun_mat_diffuse[] = { 0.01f,0.0f,0.01f,0.01f };
+GLfloat gun_mat_specular[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+GLfloat gun_mat_shininess[] = { 100.0F };
+
 
 GLfloat normalMat_ambient[] = { 0.0, 0.0, 1.0, 0.0 };
 
@@ -91,10 +99,6 @@ GLdouble fov = 60.0;
 
 int lastMouseX;
 int lastMouseY;
-
-GLboolean drawAsLines = false;
-GLboolean drawAsPoints = false;
-GLboolean drawNormals = false;
 
 GLdouble eyeX = 0.0, eyeY = 3.0, eyeZ = 10.0;
 GLdouble radius = eyeZ;
@@ -162,6 +166,7 @@ void display3D()
 	gluLookAt(eyeX, eyeY, eyeZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	drawGround();
+	drawCannon();
 
 	glPopMatrix();
 	glutSwapBuffers();
@@ -184,5 +189,27 @@ void drawGround()
 	glPopMatrix();
 }
 
+void drawCannon()
+{
+	// Set robot material properties per body part. Can have seperate material properties for each part
+	glMaterialfv(GL_FRONT, GL_AMBIENT, gun_mat_ambient);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, gun_mat_specular);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, gun_mat_diffuse);
+	glMaterialfv(GL_FRONT, GL_SHININESS, gun_mat_shininess);
+
+	glPushMatrix();
+	//Position cannon with respect to parent (body)
+	glTranslatef(0, 0, 1.5);
+
+	glPushMatrix();
+	// Creating cylinder object for cannon
+	GLUquadricObj *myCannon;
+	myCannon = gluNewQuadric();
+	gluQuadricDrawStyle(myCannon, GLU_SMOOTH);
+	gluCylinder(myCannon, cannonRadius, cannonRadius, cannonHeight, 100, 100);
+
+	glPopMatrix();
+	glPopMatrix();
+}
 
 
