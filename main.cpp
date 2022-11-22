@@ -32,9 +32,6 @@ unsigned int *indices;
 // screen window identifiers
 int window3D;
 
-int lastMouseX;
-int lastMouseY;
-
 int window3DSizeX = 800, window3DSizeY = 600;
 GLdouble aspect = (GLdouble)window3DSizeX / window3DSizeY;
 
@@ -54,6 +51,7 @@ int main(int argc, char* argv[])
 	//    glewinit();
 	glutDisplayFunc(display3D);
 	glutReshapeFunc(reshape3D);
+	glutPassiveMotionFunc(mouseMotion);
 	/*glutMouseFunc(mouseButtonHandler3D);
 	glutMouseWheelFunc(mouseScrollWheelHandler3D);
 	glutMotionFunc(mouseMotionHandler3D);
@@ -105,10 +103,13 @@ int lastMouseY;
 
 GLdouble eyeX = 0.0, eyeY = 3.0, eyeZ = 10.0;
 GLdouble radius = eyeZ;
-GLdouble zNear = 0.1, zFar = 40.0;
+GLdouble zNear = 0.1, zFar = 60.0;
 int yaw = 0;
 int pitch = 0;
 GLdouble zoom = 0.0f;
+
+bool mouseUpdated = false;
+int cannonAngle = 0;
 
 void init3DSurfaceWindow()
 {
@@ -201,7 +202,11 @@ void drawCannon()
 	glMaterialfv(GL_FRONT, GL_SHININESS, gun_mat_shininess);
 
 	glPushMatrix();
-	//Position cannon with respect to parent (body)
+	glTranslatef(0, 0, 1.5);
+	glRotatef(cannonAngle, 0.0, 1.0, 0.0);
+	glTranslatef(0, 0, -1.5);
+
+	glPushMatrix();
 	glTranslatef(0, 0, 1.5);
 
 	glPushMatrix();
@@ -215,7 +220,48 @@ void drawCannon()
 	glPopMatrix();
 }
 
-void glutPassiveMotionFunc(void(*func)(int x, int y)) {
+void mouseMotion(int x, int y) {
+	
+	int dx, dy;
+	if (!mouseUpdated) {
 
+		lastMouseX = x;
+		lastMouseY = y;
+
+		mouseUpdated = true;
+
+	}
+	else {
+
+		// calc delta
+		dx = x - lastMouseX;
+		dy = y - lastMouseY;
+
+		const float sensitivity = 0.5f;
+		dx *= sensitivity;
+		dy *= sensitivity;
+
+		lastMouseX = x;
+		lastMouseY = y;
+
+		// determine rotation amount
+
+		yaw += dx;
+		if (yaw > 60)
+			yaw = 60;
+		if (yaw < -60)
+			yaw = -60;
+		//pitch += dy;
+
+		eyeX = sin(yaw) * cos(pitch) * radius;
+	    eyeY = sin(yaw) * sin(pitch) * radius;
+		eyeZ = cos(yaw) * radius + 1.5;
+
+		gluLookAt(eyeX, eyeY, eyeZ, 0.0, 0.0, 1.5, 0.0, 1.0, 0.0);
+		//cannonAngle += yaw;
+		printf("x: %d\t y:%d\n", x, y);
+		glutPostRedisplay();
+	}
+	
 }
 
