@@ -42,15 +42,12 @@ Robot::Robot(float x_param){
 void Robot::drawRobot()
 {
     glPushMatrix();
-    glTranslatef(-1*x_pos, 3.8, -30.0);
+    glTranslatef(-1*x_pos, y_pos, -1*z_pos);
     glScalef(0.8, 0.8, 0.8);
-    glTranslatef(x_pos, -3.8, 30.0);
-    
+    glTranslatef(x_pos, -1*y_pos, z_pos);
+
     glPushMatrix();
-    glTranslatef(-1*x_pos, 3.8, -30.0);
-    
-    glPopMatrix();
-    glPopMatrix();
+    glTranslatef(-1*x_pos, y_pos, -1*z_pos);
     
     glPushMatrix();
     glRotatef(robotAngle, 0.0, 1.0, 0.0); // spin robot on base.
@@ -67,6 +64,9 @@ void Robot::drawRobot()
     drawLeftUpperLeg();
     drawRightUpperLeg();
 
+    glPopMatrix();
+    glPopMatrix();
+    
     glPopMatrix();
     glPopMatrix();
 }
@@ -585,9 +585,59 @@ bool cannonStop = false;
 bool leftStep = false;
 bool rightStep = false;
 
-void Robot::walkForward(){
-    
+bool forwardStep = true;
+
+void Robot::animation(){
+    animateGun();
+    walkForwardAnimation();
 }
+
+void Robot::animateGun(){
+    cannonAngle += 5.0;
+}
+
+void Robot::walkForwardAnimation(){
+    if (forwardStep){
+        leftStepForwardAnimation();
+        rightStepForwardAnimation();
+        forwardStep = false;
+    }
+    else{
+        leftStepBackwardAnimation();
+        rightStepBackwardAnimation();
+        forwardStep = true;
+    }
+//    leftStepBackwardAnimation();
+//    rightStepBackwardAnimation();
+    
+    z_pos -= 0.04;
+}
+
+void Robot::walkBackwardAnimation(){
+    leftStepBackwardAnimation();
+    rightStepBackwardAnimation();
+}
+
+void Robot::leftStepForwardAnimation(){
+    leftHipAngle -= 50.0;
+    leftKneeAngle += 50.0;
+}
+
+void Robot::leftStepBackwardAnimation(){
+    leftHipAngle += 50.0;
+    leftKneeAngle -= 50.0;
+}
+
+void Robot::rightStepForwardAnimation(){
+    rightHipAngle -= 50.0;
+    rightKneeAngle += 50.0;
+}
+
+void Robot::rightStepBackwardAnimation(){
+    rightHipAngle += 50.0;
+    rightKneeAngle -= 50.0;
+}
+
 // Callback, handles input from the keyboard, non-arrow keys
 //void Robot::keyboard(unsigned char key, int x, int y)
 //{

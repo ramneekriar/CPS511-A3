@@ -8,6 +8,9 @@ public:
 //    float rightKneeAngle;
     
     float x_pos;
+    float y_pos = 4.5;
+    float z_pos = 30.0;
+    
     float health = 3;
     
     float robotBodyWidth = 10.0;
@@ -47,12 +50,6 @@ public:
     float cannonAngle = 10.0;
     
     Robot(float x_param);
-    void cannonAnimationHandler(int param);
-    void leftStepForwardAnimationHandler(int param);
-    void leftStepBackwardAnimationHandler(int param);
-    void rightStepForwardAnimationHandler(int param);
-    void rightStepBackwardAnimationHandler(int param);
-    void stepAnimationHandler(int param);
     void drawRobot();
     void drawBody();
     void drawHead();
@@ -67,5 +64,12 @@ public:
     void drawLeftFoot();
     void drawRightFoot();
     void keyboard(unsigned char key, int x, int y);
-    void walkForward();
+    void walkForwardAnimation();
+    void walkBackwardAnimation();
+    void animation();
+    void animateGun();
+    void leftStepForwardAnimation();
+    void rightStepForwardAnimation();
+    void leftStepBackwardAnimation();
+    void rightStepBackwardAnimation();
 };

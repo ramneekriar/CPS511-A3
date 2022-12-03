@@ -46,6 +46,9 @@ float *vertices;
 float *normals;
 unsigned int *indices;
 
+bool runAnimation = true;
+bool stepForward = true;
+
 // screen window identifiers
 int window3D;
 
@@ -56,15 +59,16 @@ GLdouble aspect = (GLdouble)window3DSizeX / window3DSizeY;
 Player *playerPtr;
 Player player;
 
-Robot *robotPtr;
+Robot robot1(20.0);
+
+float robot1_zpos = 30.0;
 
 int main(int argc, char* argv[])
 {
 	glutInit(&argc, (char **)argv);
-//	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(glutWindowWidth, glutWindowHeight);
-	glutInitWindowPosition(50, 100);
+	glutInitWindowPosition(200, 30);
 
 	// The 3D Window
 	window3D = glutCreateWindow("CPS511-A3 Ramneek Riar");
@@ -193,70 +197,66 @@ void display3D()
 	gluLookAt(eyeX, eyeY, eyeZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     
 	drawGround();
-    
+
 	player.drawPlayerCannon();
+    
+    robot1.drawRobot();
+    
+    if (runAnimation)
+    {
+        cout << "TEST";
+        
+        glutTimerFunc(1000 / 60, animationHandler, 0);
+        runAnimation = false;
+    }
     
     // Decalre robot
     
-    Robot robot1(20.0);
-//    robot1.leftHipAngle = 0.0;
-//    robot1.leftKneeAngle = 0.0;
-//    robot1.rightHipAngle = 0.0;
-//    robot1.rightKneeAngle = 0.0;
+//    Robot robot1;
     
-    Robot robot2(0.0);
-//    robot2.leftHipAngle = 0.0;
-//    robot2.leftKneeAngle = 0.0;
-//    robot2.rightHipAngle = 0.0;
-//    robot2.rightKneeAngle = 0.0;
+//    Robot robot2;
+//
+//    Robot robot3;
     
-    Robot robot3(-20.0);
-//    robot3.leftHipAngle = 0.0;
-//    robot3.leftKneeAngle = 0.0;
-//    robot3.rightHipAngle = 0.0;
-//    robot3.rightKneeAngle = 0.0;
-    
-    // Robot 1
-    glPushMatrix();
-    glTranslatef(-20.0, 3.8, -30.0);
-    glScalef(0.8, 0.8, 0.8);
-    glTranslatef(20.0, -3.8, 30.0);
-    
-    glPushMatrix();
-    glTranslatef(-20.0, 3.8, -30.0);
-    robot1.drawRobot();
-    glPopMatrix();
-    glPopMatrix();
+    // Robot 1 --LEFT
+//    glPushMatrix();
+//    glTranslatef(-20.0, 3.8, -1*robot1_zpos);
+//    glScalef(0.8, 0.8, 0.8);
+//    glTranslatef(20.0, -3.8, robot1_zpos);
+//
+//    glPushMatrix();
+//    glTranslatef(-20.0, 3.8, -1*robot1_zpos);
+//    robot1.drawRobot();
+//    glPopMatrix();
+//    glPopMatrix();
 
     // Robot 2
-    glPushMatrix();
-    glTranslatef(0.0, 3.8, -30.0);
-    glScalef(0.8, 0.8, 0.8);
-    glTranslatef(0.0, -3.8, 30.0);
-    
-    glPushMatrix();
-    glTranslatef(0.0, 3.8, -30.0);
-    robot2.drawRobot();
-    glPopMatrix();
-    glPopMatrix();
+//    glPushMatrix();
+//    glTranslatef(0.0, 3.8, -30.0);
+//    glScalef(0.8, 0.8, 0.8);
+//    glTranslatef(0.0, -3.8, 30.0);
+//
+//    glPushMatrix();
+//    glTranslatef(0.0, 3.8, -30.0);
+//    robot2.drawRobot();
+//    glPopMatrix();
+//    glPopMatrix();
+//
+//    // Robot 3
+//    glPushMatrix();
+//    glTranslatef(20.0, 3.8, -30.0);
+//    glScalef(0.8, 0.8, 0.8);
+//    glTranslatef(-20.0, -3.8, 30.0);
+//
+//    glPushMatrix();
+//    glTranslatef(20.0, 3.8, -30.0);
+//    robot3.drawRobot();
+//    glPopMatrix();
+//    glPopMatrix();
 
-    // Robot 3
-    glPushMatrix();
-    glTranslatef(20.0, 3.8, -30.0);
-    glScalef(0.8, 0.8, 0.8);
-    glTranslatef(-20.0, -3.8, 30.0);
-    
-    glPushMatrix();
-    glTranslatef(20.0, 3.8, -30.0);
-    robot3.drawRobot();
-    glPopMatrix();
-    glPopMatrix();
-
-	glPopMatrix();
-    
-//    glutTimerFunc(10, cannonAnimationHandler, 0);
-//    glutTimerFunc(1800, stepAnimationHandler, 0);
+//	glPopMatrix();
 	glutSwapBuffers();
+//    glutPostRedisplay();
 }
 
 void drawGround()
@@ -276,63 +276,10 @@ void drawGround()
 	glPopMatrix();
 }
 
-bool runAnimation = false;
-
-//void animationHandler(int param)
-//{
-//    if(!runAnimation){
-//            glutTimerFunc(800, leftStepForwardAnimationHandler, 0);
-//            glutTimerFunc(1000, leftStepBackwardAnimationHandler, 0);
-//            glutTimerFunc(800, rightStepForwardAnimationHandler, 0);
-//            glutTimerFunc(1000, rightStepBackwardAnimationHandler, 0);
-//            glutTimerFunc(1800*2, animationHandler, 0);
-//            glutPostRedisplay();
-//    }
-//}
-//
-//void leftStepForwardAnimationHandler(int param)
-//{
-////    if (!leftStep)
-////        {
-////            leftHipAngle -= 50.0;
-////            leftKneeAngle += 50.0;
-////            glutPostRedisplay();
-////        }
-//
-//    robot1.leftHipAngle -= 50.0;
-//    robot1.leftKneeAngle += 50.0;
-//    glutPostRedisplay();
-//}
-//
-//void leftStepBackwardAnimationHandler(int param)
-//{
-////    if (!leftStep)
-////        {
-////            leftHipAngle += 50.0;
-////            leftKneeAngle -= 50.0;
-////            glutPostRedisplay();
-////        }
-//    robot1.leftHipAngle += 50.0;
-//    robot1.leftKneeAngle -= 50.0;
-//    glutPostRedisplay();
-//}
-//
-//void rightStepForwardAnimationHandler(int param)
-//{
-//    if (!rightStep)
-//        {
-//            robot1.rightHipAngle -= 50.0;
-//            robot1.rightKneeAngle += 50.0;
-//            glutPostRedisplay();
-//        }
-//}
-//
-//void rightStepBackwardAnimationHandler(int param)
-//{
-//    if (!rightStep)
-//        {
-//            robot1.rightHipAngle += 50.0;
-//            robot1.rightKneeAngle -= 50.0;
-//            glutPostRedisplay();
-//        }
-//}
+void animationHandler(int param)
+{
+    robot1.animation();
+    
+    glutPostRedisplay();
+    glutTimerFunc(1000 / 40, animationHandler, 0);
+}

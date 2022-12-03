@@ -11,7 +11,4 @@ void animationHandler(int param);
 //void keyboardHandler3D(unsigned char key, int x, int y);
 
 void drawGround();
-void leftStepForwardAnimationHandler(int param);
-void leftStepBackwardAnimationHandler(int param);
-void rightStepForwardAnimationHandler(int param);
-void rightStepBackwardAnimationHandler(int param);
+void animationHandler(int param);
