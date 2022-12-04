@@ -4,7 +4,6 @@ void display3D();
 void reshape3D(int w, int h);
 
 void handleMouse(int x, int y);
-void animationHandler(int param);
 //void mouseButtonHandler3D(int button, int state, int x, int y);
 //void mouseScrollWheelHandler3D(int button, int dir, int xMouse, int yMouse);
 //void mouseMotionHandler3D(int xMouse, int yMouse);
@@ -12,3 +11,7 @@ void animationHandler(int param);
 
 void drawGround();
 void animationHandler(int param);
+void forwardStepHandler(int param);
+void stepHandler(int param);
+void backwardStepHandler(int param);
+

@@ -59,9 +59,9 @@ GLdouble aspect = (GLdouble)window3DSizeX / window3DSizeY;
 Player *playerPtr;
 Player player;
 
-Robot robot1(20.0);
-
-float robot1_zpos = 30.0;
+Robot robot1(20.0, 20.0);
+Robot robot2(0.0, 0.0);
+Robot robot3(-20.0, -20.0);
 
 int main(int argc, char* argv[])
 {
@@ -201,6 +201,8 @@ void display3D()
 	player.drawPlayerCannon();
     
     robot1.drawRobot();
+    robot2.drawRobot();
+    robot3.drawRobot();
     
     if (runAnimation)
     {
@@ -210,53 +212,7 @@ void display3D()
         runAnimation = false;
     }
     
-    // Decalre robot
-    
-//    Robot robot1;
-    
-//    Robot robot2;
-//
-//    Robot robot3;
-    
-    // Robot 1 --LEFT
-//    glPushMatrix();
-//    glTranslatef(-20.0, 3.8, -1*robot1_zpos);
-//    glScalef(0.8, 0.8, 0.8);
-//    glTranslatef(20.0, -3.8, robot1_zpos);
-//
-//    glPushMatrix();
-//    glTranslatef(-20.0, 3.8, -1*robot1_zpos);
-//    robot1.drawRobot();
-//    glPopMatrix();
-//    glPopMatrix();
-
-    // Robot 2
-//    glPushMatrix();
-//    glTranslatef(0.0, 3.8, -30.0);
-//    glScalef(0.8, 0.8, 0.8);
-//    glTranslatef(0.0, -3.8, 30.0);
-//
-//    glPushMatrix();
-//    glTranslatef(0.0, 3.8, -30.0);
-//    robot2.drawRobot();
-//    glPopMatrix();
-//    glPopMatrix();
-//
-//    // Robot 3
-//    glPushMatrix();
-//    glTranslatef(20.0, 3.8, -30.0);
-//    glScalef(0.8, 0.8, 0.8);
-//    glTranslatef(-20.0, -3.8, 30.0);
-//
-//    glPushMatrix();
-//    glTranslatef(20.0, 3.8, -30.0);
-//    robot3.drawRobot();
-//    glPopMatrix();
-//    glPopMatrix();
-
-//	glPopMatrix();
 	glutSwapBuffers();
-//    glutPostRedisplay();
 }
 
 void drawGround()
@@ -278,8 +234,38 @@ void drawGround()
 
 void animationHandler(int param)
 {
-    robot1.animation();
+    glutTimerFunc(500, stepHandler, 0);
+    glutTimerFunc(1000 / 60, animationHandler, 0);
+    glutPostRedisplay();
+}
+
+void forwardStepHandler(int param)
+{
+    robot1.animateGun();
+    robot2.animateGun();
+    robot3.animateGun();
+    
+    robot1.walkForwardAnimation();
+    robot2.walkForwardAnimation();
+    robot3.walkForwardAnimation();
     
     glutPostRedisplay();
-    glutTimerFunc(1000 / 40, animationHandler, 0);
+    glutTimerFunc(250, forwardStepHandler, 0);
 }
+                  
+void stepHandler(int param){
+    glutTimerFunc(250, forwardStepHandler, 0);
+    glutTimerFunc(250, backwardStepHandler, 0);
+    glutTimerFunc(500, stepHandler, 0);
+}
+
+void backwardStepHandler(int param)
+{
+    robot1.walkBackwardAnimation();
+    robot2.walkBackwardAnimation();
+    robot3.walkBackwardAnimation();
+    
+    glutPostRedisplay();
+    glutTimerFunc(250, backwardStepHandler, 0);
+}
+                  

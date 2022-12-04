@@ -35,26 +35,32 @@ GLfloat gun_mat_specular[] = { 0.5f, 0.5f, 0.5f, 1.0f };
 GLfloat gun_mat_shininess[] = { 100.0F };
 
 // Robot constructor
-Robot::Robot(float x_param){
-    float x_pos = x_param;
+Robot::Robot(float x_param, float hip_param){
+    x_pos = x_param;
+    hipAngle = hip_param;
 }
 
 void Robot::drawRobot()
 {
-    glPushMatrix();
-    glTranslatef(-1*x_pos, y_pos, -1*z_pos);
-    glScalef(0.8, 0.8, 0.8);
-    glTranslatef(x_pos, -1*y_pos, z_pos);
+//    glPushMatrix();
+//    glTranslatef(-1*x_pos, y_pos, -1*z_pos);
+//    glScalef(0.8, 0.8, 0.8);
+//    glTranslatef(x_pos, -1*y_pos, z_pos);
 
     glPushMatrix();
     glTranslatef(-1*x_pos, y_pos, -1*z_pos);
     
     glPushMatrix();
+    glScalef(0.8, 0.8, 0.8);
+    
+    glPushMatrix();
     glRotatef(robotAngle, 0.0, 1.0, 0.0); // spin robot on base.
-
+    glPushMatrix();
+    glRotatef(hipAngle, 0.0, 1.0, 0.0);  // spin robot on hip.
     drawBody();
     drawHead();
     drawCannon();
+    glPopMatrix();
     glPopMatrix();
 
     glPushMatrix();
@@ -63,10 +69,9 @@ void Robot::drawRobot()
     drawLowerBody();
     drawLeftUpperLeg();
     drawRightUpperLeg();
-
-    glPopMatrix();
     glPopMatrix();
     
+    glPopMatrix();
     glPopMatrix();
     glPopMatrix();
 }
@@ -581,36 +586,24 @@ void Robot::drawRightFoot()
     glPopMatrix(); // closing right leg hierarchy here
 }
 
-bool cannonStop = false;
-bool leftStep = false;
-bool rightStep = false;
+//bool cannonStop = false;
+//bool leftStep = false;
+//bool rightStep = false;
 
-bool forwardStep = true;
-
-void Robot::animation(){
-    animateGun();
-    walkForwardAnimation();
-}
+//void Robot::animation(){
+//    animateGun();
+////    walkForwardAnimation();
+//}
 
 void Robot::animateGun(){
     cannonAngle += 5.0;
 }
 
 void Robot::walkForwardAnimation(){
-    if (forwardStep){
-        leftStepForwardAnimation();
-        rightStepForwardAnimation();
-        forwardStep = false;
-    }
-    else{
-        leftStepBackwardAnimation();
-        rightStepBackwardAnimation();
-        forwardStep = true;
-    }
-//    leftStepBackwardAnimation();
-//    rightStepBackwardAnimation();
+    leftStepForwardAnimation();
+    rightStepForwardAnimation();
     
-    z_pos -= 0.04;
+    z_pos -= 0.08;
 }
 
 void Robot::walkBackwardAnimation(){
@@ -637,117 +630,3 @@ void Robot::rightStepBackwardAnimation(){
     rightHipAngle += 50.0;
     rightKneeAngle -= 50.0;
 }
-
-// Callback, handles input from the keyboard, non-arrow keys
-//void Robot::keyboard(unsigned char key, int x, int y)
-//{
-//    switch (key)
-//    {
-//    case 'b':
-//            curJoint = 'b';
-//        break;
-//    case 'h':
-//            curJoint = 'h';
-//        break;
-//    case 'k':
-//            curJoint = 'k';
-//        break;
-//    case 'c':
-//        cannonStop = false;
-//        glutTimerFunc(10, cannonAnimationHandler, 0);
-//        break;
-//    case 'C':
-//        cannonStop = true;
-//        break;
-//    case 'w':
-//        leftStep = false;
-//        glutTimerFunc(1800, stepAnimationHandler, 0);
-//        break;
-//    case 'W':
-//        leftHipAngle = 0.0;
-//        leftKneeAngle = 0.0;
-//        leftFootAngle = 0.0;
-//        leftStep = true;
-//        glutPostRedisplay();
-//        break;
-//    }
-//
-//    glutPostRedisplay();   // Trigger a window redisplay
-//}
-
-
-//void Robot::cannonAnimationHandler(int param)
-//{
-//    if (!cannonStop)
-//    {
-//        cannonAngle += 5.0;
-//        glutPostRedisplay();
-//        glutTimerFunc(10, cannonAnimationHandler, 0);
-//    }
-//}
-//
-//void Robot::stepAnimationHandler(int param)
-//{
-////    if (!leftStep)
-////    {
-////        glutTimerFunc(800, leftStepForwardAnimationHandler, 0);
-////        glutTimerFunc(1000, leftStepBackwardAnimationHandler, 0);
-//////        glutTimerFunc(800, rightStepForwardAnimationHandler, 0);
-//////        glutTimerFunc(1000, rightStepBackwardAnimationHandler, 0);
-////        glutTimerFunc(1800, stepAnimationHandler, 0);
-////        glutPostRedisplay();
-////    }
-//    glutTimerFunc(800, leftStepForwardAnimationHandler, 0);
-//    glutTimerFunc(1000, leftStepBackwardAnimationHandler, 0);
-//    glutTimerFunc(800, rightStepForwardAnimationHandler, 0);
-//    glutTimerFunc(1000, rightStepBackwardAnimationHandler, 0);
-//    glutTimerFunc(1800, stepAnimationHandler, 0);
-//    glutPostRedisplay();
-//}
-//
-//void Robot::leftStepForwardAnimationHandler(int param)
-//{
-////    if (!leftStep)
-////        {
-////            leftHipAngle -= 50.0;
-////            leftKneeAngle += 50.0;
-////            glutPostRedisplay();
-////        }
-//
-//    leftHipAngle -= 50.0;
-//    leftKneeAngle += 50.0;
-//    glutPostRedisplay();
-//}
-//
-//void Robot::leftStepBackwardAnimationHandler(int param)
-//{
-////    if (!leftStep)
-////        {
-////            leftHipAngle += 50.0;
-////            leftKneeAngle -= 50.0;
-////            glutPostRedisplay();
-////        }
-//    leftHipAngle += 50.0;
-//    leftKneeAngle -= 50.0;
-//    glutPostRedisplay();
-//}
-//
-//void Robot::rightStepForwardAnimationHandler(int param)
-//{
-//    if (!rightStep)
-//        {
-//            rightHipAngle -= 50.0;
-//            rightKneeAngle += 50.0;
-//            glutPostRedisplay();
-//        }
-//}
-//
-//void Robot::rightStepBackwardAnimationHandler(int param)
-//{
-//    if (!rightStep)
-//        {
-//            rightHipAngle += 50.0;
-//            rightKneeAngle -= 50.0;
-//            glutPostRedisplay();
-//        }
-//}

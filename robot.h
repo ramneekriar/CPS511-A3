@@ -7,7 +7,7 @@ public:
 //    float rightHipAngle;
 //    float rightKneeAngle;
     
-    float x_pos;
+    float x_pos = 0.0;
     float y_pos = 4.5;
     float z_pos = 30.0;
     
@@ -37,6 +37,8 @@ public:
 
     // Control angles
     float robotAngle = 0.0;
+    float hipAngle = 0.0;
+    
     float leftHipAngle = 0.0;
     float leftKneeAngle = 0.0;
     float leftFootAngle = 0.0;
@@ -49,7 +51,7 @@ public:
     float lowerLegAngle = -60.0;
     float cannonAngle = 10.0;
     
-    Robot(float x_param);
+    Robot(float x_param, float hip_param);
     void drawRobot();
     void drawBody();
     void drawHead();
