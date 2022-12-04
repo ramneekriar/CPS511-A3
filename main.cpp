@@ -234,9 +234,15 @@ void drawGround()
 
 void animationHandler(int param)
 {
-    glutTimerFunc(500, stepHandler, 0);
+//    glutTimerFunc(500, stepHandler, 0);
     glutTimerFunc(1000 / 60, animationHandler, 0);
     glutPostRedisplay();
+}
+
+void stepHandler(int param){
+    glutTimerFunc(250, forwardStepHandler, 0);
+    glutTimerFunc(250, backwardStepHandler, 0);
+    glutTimerFunc(500, stepHandler, 0);
 }
 
 void forwardStepHandler(int param)
@@ -251,12 +257,6 @@ void forwardStepHandler(int param)
     
     glutPostRedisplay();
     glutTimerFunc(250, forwardStepHandler, 0);
-}
-                  
-void stepHandler(int param){
-    glutTimerFunc(250, forwardStepHandler, 0);
-    glutTimerFunc(250, backwardStepHandler, 0);
-    glutTimerFunc(500, stepHandler, 0);
 }
 
 void backwardStepHandler(int param)
