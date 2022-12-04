@@ -23,6 +23,7 @@
 #include <iostream>
 #include "robot.h"
 #include "player.h"
+#include "laser.h"
 
 using namespace std;
 
@@ -59,9 +60,14 @@ GLdouble aspect = (GLdouble)window3DSizeX / window3DSizeY;
 Player *playerPtr;
 Player player;
 
+Laser *laserPtr;
+Laser laser;
+
 Robot robot1(20.0, 20.0);
 Robot robot2(0.0, 0.0);
 Robot robot3(-20.0, -20.0);
+
+bool laserVisible = false;
 
 int main(int argc, char* argv[])
 {
@@ -72,12 +78,13 @@ int main(int argc, char* argv[])
 
 	// The 3D Window
 	window3D = glutCreateWindow("CPS511-A3 Ramneek Riar");
-	glutPositionWindow(900, 100);
+	glutPositionWindow(400, 60);
 	//    glewinit();
 	glutDisplayFunc(display3D);
 	glutReshapeFunc(reshape3D);
 //    glutKeyboardFunc(keyboard);
 	glutPassiveMotionFunc(handleMouse);
+    glutKeyboardFunc(keyboard);
 	/*glutMouseFunc(mouseButtonHandler3D);
 	glutMouseWheelFunc(mouseScrollWheelHandler3D);
 	glutMotionFunc(mouseMotionHandler3D);
@@ -104,6 +111,7 @@ int main(int argc, char* argv[])
 void handleMouse(int x, int y)
 {
    playerPtr->mouseMotion(x, y);
+    laserPtr->mouseMotion(x, y);
 }
 
  
@@ -197,6 +205,9 @@ void display3D()
 	gluLookAt(eyeX, eyeY, eyeZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     
 	drawGround();
+    
+    if (laserVisible)
+        laser.drawBullet();
 
 	player.drawPlayerCannon();
     
@@ -204,10 +215,12 @@ void display3D()
     robot2.drawRobot();
     robot3.drawRobot();
     
+    robot1.respawn();
+    robot2.respawn();
+    robot3.respawn();
+    
     if (runAnimation)
     {
-        cout << "TEST";
-        
         glutTimerFunc(1000 / 60, animationHandler, 0);
         runAnimation = false;
     }
@@ -234,7 +247,7 @@ void drawGround()
 
 void animationHandler(int param)
 {
-//    glutTimerFunc(500, stepHandler, 0);
+    glutTimerFunc(500, stepHandler, 0);
     glutTimerFunc(1000 / 60, animationHandler, 0);
     glutPostRedisplay();
 }
@@ -268,4 +281,16 @@ void backwardStepHandler(int param)
     glutPostRedisplay();
     glutTimerFunc(250, backwardStepHandler, 0);
 }
-                  
+      
+
+void keyboard(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+    case 'b':
+            laserVisible = true;
+        break;
+    }
+
+    glutPostRedisplay();   // Trigger a window redisplay
+}

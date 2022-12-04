@@ -616,3 +616,9 @@ void Robot::rightStepBackwardAnimation(){
     rightHipAngle += 50.0;
     rightKneeAngle -= 50.0;
 }
+
+void Robot::respawn(){
+    if (z_pos <= -30.0 and !dead){
+        z_pos = 30.0;
+    }
+}

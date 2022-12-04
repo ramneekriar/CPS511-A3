@@ -14,4 +14,5 @@ void animationHandler(int param);
 void forwardStepHandler(int param);
 void stepHandler(int param);
 void backwardStepHandler(int param);
+void keyboard(unsigned char key, int x, int y);
 

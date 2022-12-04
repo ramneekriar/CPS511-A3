@@ -44,12 +44,16 @@ void Player::drawPlayerCannon()
 //    GLUquadricObj *myCannon;
 //    myCannon = gluNewQuadric();
 //    gluQuadricDrawStyle(myCannon, GLU_SMOOTH);
+//    glRotatef(playerCannonAngleX, 1, 0, 0); //x-axis rotate
+//    glRotatef(playerCannonAngleY, 0, 0, 1); //y-axis rotate
+    
     glRotatef(playerCannonAngleX, 1, 0, 0); //x-axis rotate
-    glRotatef(playerCannonAngleY, 0, 0, 1); //y-axis rotate
-//    glRotatef(180, 0, 1, 0);
+    glRotatef(playerCannonAngleY, 0, 1, 0); //y-axis rotate
+    glRotatef(90, 1, 0, 0);
 //    gluCylinder(myCannon, playerCannonRadius, playerCannonRadius, playerCannonHeight, 100, 100);
-    glPushMatrix();
+//    glPushMatrix();
     createMesh();
+    
     glPopMatrix();
     glPopMatrix();
     glPopMatrix();

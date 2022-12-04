@@ -2,16 +2,13 @@
 class Robot
 {
 public:
-//    float leftHipAngle;
-//    float leftKneeAngle;
-//    float rightHipAngle;
-//    float rightKneeAngle;
     
     float x_pos = 0.0;
     float y_pos = 4.5;
     float z_pos = 30.0;
     
     float health = 3;
+    bool dead = false;
     
     float robotBodyWidth = 10.0;
     float robotBodyLength = 2.0;
@@ -74,4 +71,5 @@ public:
     void rightStepForwardAnimation();
     void leftStepBackwardAnimation();
     void rightStepBackwardAnimation();
+    void respawn();
 };
