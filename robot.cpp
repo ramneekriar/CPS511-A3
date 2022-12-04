@@ -42,11 +42,6 @@ Robot::Robot(float x_param, float hip_param){
 
 void Robot::drawRobot()
 {
-//    glPushMatrix();
-//    glTranslatef(-1*x_pos, y_pos, -1*z_pos);
-//    glScalef(0.8, 0.8, 0.8);
-//    glTranslatef(x_pos, -1*y_pos, z_pos);
-
     glPushMatrix();
     glTranslatef(-1*x_pos, y_pos, -1*z_pos);
     
@@ -585,15 +580,6 @@ void Robot::drawRightFoot()
     glPopMatrix();
     glPopMatrix(); // closing right leg hierarchy here
 }
-
-//bool cannonStop = false;
-//bool leftStep = false;
-//bool rightStep = false;
-
-//void Robot::animation(){
-//    animateGun();
-////    walkForwardAnimation();
-//}
 
 void Robot::animateGun(){
     cannonAngle += 5.0;
