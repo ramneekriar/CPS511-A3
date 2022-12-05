@@ -3,6 +3,7 @@ class Robot
 {
 public:
     
+    //variables
     float x_pos = 0.0;
     float y_pos = 4.5;
     float z_pos = 30.0;
@@ -48,6 +49,7 @@ public:
     float lowerLegAngle = -60.0;
     float cannonAngle = 10.0;
     
+    //functions
     Robot(float x_param, float hip_param);
     void drawRobot();
     void drawBody();

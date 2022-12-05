@@ -69,13 +69,15 @@ Robot robot1(20.0, 20.0); //left
 Robot robot2(0.0, 0.0); //middle
 Robot robot3(-20.0, -20.0); //right
 
-Laser robot1Laser(16.0, 5.0, -20.0, 0.03, 100.0);
+Laser robot1Laser(-17.0, 5.0, -20.0, 0.03, 100.0);
 Laser robot2Laser(0.0, 9.0, -15.0, 0.03, 100.0);
-Laser robot3Laser(-16.0, 5.0, -20.0, 0.03, 100.0);
+Laser robot3Laser(17.0, 5.0, -20.0, 0.03, 100.0);
 
 bool laserVisible = false;
 
-bool robotLaser2Visible = false;
+bool robot1LaserVisible = false;
+bool robot2LaserVisible = false;
+bool robot3LaserVisible = false;
 
 int main(int argc, char* argv[])
 {
@@ -204,17 +206,19 @@ void display3D()
     
     if (laserVisible)
         laser.drawLaser();
-
+    
 	player.drawPlayerCannon();
     
     robot1.drawRobot();
     robot2.drawRobot();
     robot3.drawRobot();
     
-//    if (robotLaser2Visible)
-    robot1Laser.drawRobotLaser();
-    robot2Laser.drawRobotLaser();
-    robot3Laser.drawRobotLaser();
+    if (robot1LaserVisible)
+        robot1Laser.drawRobotLaser(1);
+    if (robot2LaserVisible)
+        robot2Laser.drawRobotLaser(2);
+    if (robot3LaserVisible)
+        robot3Laser.drawRobotLaser(3);
     
     robot1.respawn();
     robot2.respawn();
@@ -223,6 +227,9 @@ void display3D()
     if (runAnimation)
     {
         glutTimerFunc(1000 / 60, animationHandler, 0);
+        glutTimerFunc(200, robot1LaserAnimation, 0);
+        glutTimerFunc(400, robot2LaserAnimation, 0);
+        glutTimerFunc(300, robot3LaserAnimation, 0);
         runAnimation = false;
     }
     
@@ -331,6 +338,33 @@ void laserAnimation(int param){
     if (laserVisible)
         laserVisible = false;
     glutTimerFunc(1, laserAnimation, 0);
+    glutPostRedisplay();
+}
+
+void robot1LaserAnimation(int param){
+    if(robot1LaserVisible)
+        robot1LaserVisible = false;
+    else
+        robot1LaserVisible = true;
+    glutTimerFunc(200, robot1LaserAnimation, 0);
+    glutPostRedisplay();
+}
+
+void robot2LaserAnimation(int param){
+    if(robot2LaserVisible)
+        robot2LaserVisible = false;
+    else
+        robot2LaserVisible = true;
+    glutTimerFunc(400, robot2LaserAnimation, 0);
+    glutPostRedisplay();
+}
+
+void robot3LaserAnimation(int param){
+    if(robot3LaserVisible)
+        robot3LaserVisible = false;
+    else
+        robot3LaserVisible = true;
+    glutTimerFunc(300, robot3LaserAnimation, 0);
     glutPostRedisplay();
 }
 

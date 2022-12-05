@@ -60,7 +60,7 @@ void Laser::drawLaser(){
     glPopMatrix();
 }
 
-void Laser::drawRobotLaser(){
+void Laser::drawRobotLaser(int robot_id){
     
     glMaterialfv(GL_FRONT, GL_AMBIENT, quadMat_ambient);
     glMaterialfv(GL_FRONT, GL_SPECULAR, quadMat_specular);
@@ -71,8 +71,18 @@ void Laser::drawRobotLaser(){
     glTranslatef(x_pos, y_pos, z_pos);
 
     glPushMatrix();
-    glRotatef(200.0, 1, 0, 0);
-    glRotatef(180.0, 0, 1, 0);
+    if (robot_id == 1){
+        glRotatef(200.0, 1, 0, 0);
+        glRotatef(160.0, 0, 1, 0);
+    }
+    else if (robot_id == 2){
+        glRotatef(200.0, 1, 0, 0);
+        glRotatef(180.0, 0, 1, 0);
+    }
+    else{
+        glRotatef(200.0, 1, 0, 0);
+        glRotatef(200.0, 0, 1, 0);
+    }
     gluCylinder(gluNewQuadric(), laser_radius, laser_radius, laser_height, 100, 100);
     
     glPopMatrix();
@@ -120,4 +130,8 @@ void Laser::checkCollision(float robot_x, float robot_y, float robot_z){
     distance = sqrt(pow(robot_x - laser_endX, 2) + pow(robot_y - laser_endY, 2) + pow(robot_z - temp_z, 2));
     
     printf("%f", distance);
+}
+
+void Laser::moveLaserForward(){
+    z_pos -= 0.15;
 }

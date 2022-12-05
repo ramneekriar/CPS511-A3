@@ -11,7 +11,12 @@ void handleMouse(int x, int y);
 
 void drawGround();
 void animationHandler(int param);
+
 void laserAnimation(int param);
+void robot1LaserAnimation(int param);
+void robot2LaserAnimation(int param);
+void robot3LaserAnimation(int param);
+
 void forwardStepHandler(int param);
 void stepHandler(int param);
 void backwardStepHandler(int param);
