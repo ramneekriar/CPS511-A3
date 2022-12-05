@@ -1,12 +1,3 @@
-//#include <stdio.h>
-//#include <windows.h>
-//#include <GL/glew.h>
-//#include <GL/freeglut.h>
-//#include <math.h>
-//#include <string.h>
-//#include "main.h"
-//#include <iostream>
-
 #define GL_SILENCE_DEPRECATION
 #ifdef __APPLE__
 #include <glut/glut.h>
@@ -69,9 +60,9 @@ Robot robot1(20.0, 20.0); //left
 Robot robot2(0.0, 0.0); //middle
 Robot robot3(-20.0, -20.0); //right
 
-Laser robot1Laser(-17.0, 5.0, -20.0, 0.03, 100.0);
+Laser robot1Laser(-16.5, 5.0, -20.0, 0.03, 100.0);
 Laser robot2Laser(0.0, 9.0, -15.0, 0.03, 100.0);
-Laser robot3Laser(17.0, 5.0, -20.0, 0.03, 100.0);
+Laser robot3Laser(16.5, 5.0, -20.0, 0.03, 100.0);
 
 bool laserVisible = false;
 
@@ -319,6 +310,10 @@ void forwardStepHandler(int param)
     robot2.walkForwardAnimation();
     robot3.walkForwardAnimation();
     
+    robot1Laser.moveLaserForward();
+    robot2Laser.moveLaserForward();
+    robot3Laser.moveLaserForward();
+    
     glutPostRedisplay();
     glutTimerFunc(250, forwardStepHandler, 0);
 }
@@ -344,8 +339,9 @@ void laserAnimation(int param){
 void robot1LaserAnimation(int param){
     if(robot1LaserVisible)
         robot1LaserVisible = false;
-    else
+    else{
         robot1LaserVisible = true;
+    }
     glutTimerFunc(200, robot1LaserAnimation, 0);
     glutPostRedisplay();
 }
