@@ -63,9 +63,9 @@ Player player;
 Laser *laserPtr;
 Laser laser;
 
-Robot robot1(20.0, 20.0);
-Robot robot2(0.0, 0.0);
-Robot robot3(-20.0, -20.0);
+Robot robot1(20.0, 20.0); //left
+Robot robot2(0.0, 0.0); //middle
+Robot robot3(-20.0, -20.0); //right
 
 bool laserVisible = false;
 
@@ -134,9 +134,6 @@ GLfloat normalMat_ambient[] = { 0.0, 0.0, 1.0, 0.0 };
 
 GLdouble fov = 60.0;
 
-//int lastMouseX;
-//int lastMouseY;
-
 GLdouble eyeX = 0.0, eyeY = 3.0, eyeZ = 30.0;
 GLdouble radius = eyeZ;
 GLdouble zNear = 0.1, zFar = 100.0;
@@ -144,7 +141,6 @@ int yaw = 0;
 int pitch = 0;
 GLdouble zoom = 0.0f;
 
-//bool mouseUpdated = false;
 
 void init3DSurfaceWindow()
 {
@@ -283,6 +279,7 @@ void backwardStepHandler(int param)
 }
       
 void laserAnimation(int param){
+    laser.checkCollision(robot2.x_pos, robot2.y_pos, robot2.z_pos);
     if (laserVisible)
         laserVisible = false;
     glutTimerFunc(1, laserAnimation, 0);

@@ -9,6 +9,7 @@
 //#include <GL/glew.h>
 //#include <GL/freeglut.h>
 #include <math.h>
+#include<cmath>
 #include <string.h>
 #include <stdio.h>
 #include "laser.h"
@@ -23,6 +24,9 @@ bool laser_mouseUpdated = false;
 float laserAngleX = 0.0;
 float laserAngleY = 0.0;
 
+float laser_endX = 0.0;
+float laser_endY = 0.0;
+
 int laser_lastMouseX;
 int laser_lastMouseY;
 
@@ -34,7 +38,7 @@ void Laser::drawLaser(){
     glMaterialfv(GL_FRONT, GL_SHININESS, quadMat_shininess);
     
     glPushMatrix();
-    glTranslatef(x_pos, 0.0, 28.0);
+    glTranslatef(x_pos, y_pos, z_pos);
 
     glPushMatrix();
     glRotatef(laserAngleX, 1, 0, 0); //x-axis rotate
@@ -74,6 +78,18 @@ void Laser::mouseMotion(int x, int y)
         // determine rotation amount
         laserAngleX -= dy;
         laserAngleY -= dx;
+        
+        laser_endX = laser_endX + (1*cos(laserAngleX));
+        laser_endY = laser_endY + (1*sin(laserAngleY));
         glutPostRedisplay();
     }
+}
+
+void Laser::checkCollision(float robot_x, float robot_y, float robot_z){
+    // laser is translated 28.0 towards us
+    float temp_z = -28.0;
+    float distance = 0.0;
+    distance = sqrt(pow(robot_x - laser_endX, 2) + pow(robot_y - laser_endY, 2) + pow(robot_z - temp_z, 2));
+    
+    printf("%f", distance);
 }

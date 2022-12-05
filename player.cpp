@@ -11,7 +11,10 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
+#include <iostream>
 #include "player.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 // Cannon Mesh material
 GLfloat cannon_mat_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -89,22 +92,61 @@ void Player::mouseMotion(int x, int y)
 void Player::createMesh()
 {
     glPushMatrix();
+    
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load("metal-texture.jpg", &width, &height, &nrChannels, 0);
+    
+    unsigned int playerTexture;
+    glGenTextures(1, &playerTexture);
+    glBindTexture(GL_TEXTURE_2D, playerTexture);
+    
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    
+    glEnable(GL_TEXTURE_2D);
+    
+    
+    stbi_image_free(data);
+    
+    glBindTexture(GL_TEXTURE_2D, playerTexture);
     for (int i = 0; i < 1584; i+= 12){
         glBegin(GL_QUADS);
-
+        
+        glTexCoord2f(0.0, 0.0);  // Map to the bottom left texel
         glNormal3f(normals[indices[i]], normals[indices[i] + 1], normals[indices[i] + 2]);
         glVertex3f(vertices[i], vertices[i + 1], vertices[i + 2]);
 
+        glTexCoord2f(0.0, 1.0);  // Map to the bottom right texel
         glNormal3f(normals[indices[i] + 3], normals[indices[i] + 4], normals[indices[i] + 5]);
         glVertex3f(vertices[indices[i] + 3], vertices[indices[i] + 4], vertices[indices[i] + 5]);
 
+        glTexCoord2f(1.0, 1.0);  // Map to the top right texel
         glNormal3f(normals[indices[i] + 6], normals[indices[i] + 7], normals[indices[i] + 8]);
         glVertex3f(vertices[indices[i] + 6], vertices[indices[i] + 7], vertices[indices[i] + 8]);
 
+        glTexCoord2f(1.0, 0.0);  // Map to the top left texel
         glNormal3f(normals[indices[i] + 9], normals[indices[i] + 10], normals[indices[i] + 11]);
         glVertex3f(vertices[indices[i] + 9], vertices[indices[i] + 10], vertices[indices[i] + 11]);
 
         glEnd();
     }
+    glFlush();
+    glBindTexture(playerTexture, 0);
+    glDeleteTextures(1, &playerTexture);
     glPopMatrix();
 }
+
