@@ -207,7 +207,7 @@ void display3D()
 	drawGround();
     
     if (laserVisible)
-        laser.drawBullet();
+        laser.drawLaser();
 
 	player.drawPlayerCannon();
     
@@ -287,7 +287,7 @@ void keyboard(unsigned char key, int x, int y)
 {
     switch (key)
     {
-    case 'b':
+    case 32:
             laserVisible = true;
         break;
     }

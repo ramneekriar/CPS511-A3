@@ -18,15 +18,13 @@ GLfloat quadMat_specular[] = { 0.45, 0.55, 0.45, 1.0 };
 GLfloat quadMat_diffuse[] = { 0.1, 0.35, 0.1, 1.0 };
 GLfloat quadMat_shininess[] = { 10.0 };
 
+bool laser_mouseUpdated = false;
+
+float laserAngleX = 0.0;
+float laserAngleY = 0.0;
+
 int laser_lastMouseX;
 int laser_lastMouseY;
-
-// Bullet constructor
-//Laser::Laser(float x_param, float y_param, float z_param){
-//    x_pos = x_param;
-//    y_pos = y_param;
-//    z_pos = z_param;
-//}
 
 void Laser::drawLaser(){
     
@@ -42,12 +40,10 @@ void Laser::drawLaser(){
     glRotatef(laserAngleX, 1, 0, 0); //x-axis rotate
     glRotatef(laserAngleY, 0, 1, 0); //y-axis rotate
     glRotatef(180.0, 0, 1, 0);
-//    glRotatef(-60.0, 0, 0, 1);
     glRotatef(30, 0, 0, 1);
     gluCylinder(gluNewQuadric(), laser_radius, laser_radius, laser_height, 100, 100);
-    glPopMatrix();
-    glPopMatrix();
     
+    glPopMatrix();
     glPopMatrix();
 }
 
@@ -80,8 +76,4 @@ void Laser::mouseMotion(int x, int y)
         laserAngleY -= dx;
         glutPostRedisplay();
     }
-}
-
-void animate(){
-    
 }
