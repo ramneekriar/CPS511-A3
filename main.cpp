@@ -211,9 +211,12 @@ void display3D()
     if (robot3LaserVisible)
         robot3Laser.drawRobotLaser(3);
     
-    robot1.respawn();
-    robot2.respawn();
-    robot3.respawn();
+    if(robot1.respawn())
+        robot1Laser.reposition(-16.5, 5.0, -20.0);
+    if(robot2.respawn())
+        robot2Laser.reposition(0.0, 9.0, -15.0);
+    if(robot3.respawn())
+        robot3Laser.reposition(16.5, 5.0, -20.0);
     
     if (runAnimation)
     {
@@ -311,7 +314,7 @@ void forwardStepHandler(int param)
     robot3.walkForwardAnimation();
     
     robot1Laser.moveLaserForward();
-    robot2Laser.moveLaserForward();
+//    robot2Laser.moveLaserForward();
     robot3Laser.moveLaserForward();
     
     glutPostRedisplay();

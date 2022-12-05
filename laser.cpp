@@ -133,6 +133,12 @@ void Laser::checkCollision(float robot_x, float robot_y, float robot_z){
 }
 
 void Laser::moveLaserForward(){
-    z_pos += 0.005;
+    z_pos += 0.13;
     y_pos -= 0.003;
+}
+
+void Laser::reposition(float x_param, float y_param, float z_param){
+    x_pos = x_param;
+    y_pos = y_param;
+    z_pos = z_param;
 }

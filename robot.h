@@ -73,5 +73,5 @@ public:
     void rightStepForwardAnimation();
     void leftStepBackwardAnimation();
     void rightStepBackwardAnimation();
-    void respawn();
+    bool respawn();
 };

@@ -17,4 +17,5 @@ public:
     void mouseMotion(int x, int y);
     void checkCollision(float robot_x, float robot_y, float robot_z);
     void moveLaserForward();
+    void reposition(float x_param, float y_param, float z_param);
 };
