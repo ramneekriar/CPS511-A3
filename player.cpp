@@ -13,7 +13,6 @@
 #include <stdio.h>
 #include <iostream>
 #include "player.h"
-#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 // Cannon Mesh material

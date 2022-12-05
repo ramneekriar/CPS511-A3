@@ -24,6 +24,8 @@
 #include "robot.h"
 #include "player.h"
 #include "laser.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 using namespace std;
 
@@ -227,17 +229,60 @@ void display3D()
 void drawGround()
 {
 	glPushMatrix();
+    
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load("ground-texture.jpg", &width, &height, &nrChannels, 0);
+    
+    unsigned int groundTexture;
+    glGenTextures(1, &groundTexture);
+    glBindTexture(GL_TEXTURE_2D, groundTexture);
+    
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    
+    glEnable(GL_TEXTURE_2D);
+    
+    
+    stbi_image_free(data);
+    
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, groundMat_ambient);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, groundMat_specular);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, groundMat_diffuse);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, groundMat_shininess);
+    
+    glBindTexture(GL_TEXTURE_2D, groundTexture);
 	glBegin(GL_QUADS);
 	glNormal3f(0, 1, 0);
+    
+    glTexCoord2f(0.0, 0.0);
 	glVertex3f(-22.0f, -4.0f, -22.0f);
+    
+    glTexCoord2f(0.0, 1.0);
 	glVertex3f(-22.0f, -4.0f, 22.0f);
-	glVertex3f(22.0f, -4.0f, 22.0f);
+	
+    glTexCoord2f(1.0, 1.0);
+    glVertex3f(22.0f, -4.0f, 22.0f);
+    
+    glTexCoord2f(1.0, 0.0);
 	glVertex3f(22.0f, -4.0f, -22.0f);
+    
 	glEnd();
+    glBindTexture(groundTexture, 0);
+    glDeleteTextures(1, &groundTexture);
 	glPopMatrix();
 }
 

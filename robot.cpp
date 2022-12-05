@@ -11,6 +11,8 @@
 #include <math.h>
 #include <string.h>
 #include "robot.h"
+#include "stb_image.h"
+#include <iostream>
 
 // Lighting/shading and material properties for robot - upcoming lecture - just copy for now
 // Robot RGBA material properties (NOTE: we will learn about this later in the semester)
@@ -115,6 +117,7 @@ void Robot::drawCannon()
     glMaterialfv(GL_FRONT, GL_SHININESS, gun_mat_shininess);
 
     glPushMatrix();
+    
     glTranslatef(0, 0.05*robotBodyLength, 0.1*robotBodyWidth);
     glRotatef(cannonAngle, 0.0, 0.0, 1.0);
     glTranslatef(0, -(0.05*robotBodyLength), -(0.1*robotBodyWidth));
@@ -151,6 +154,7 @@ void Robot::drawCannon()
 
     glPopMatrix();
     glPopMatrix();
+    glFlush();
     glPopMatrix();
 }
 
@@ -162,6 +166,7 @@ void Robot::drawLowerBody()
     glMaterialfv(GL_FRONT, GL_SHININESS, robotLowerBody_mat_shininess);
 
     glPushMatrix();
+    
     glRotatef(90.0, 0.0, 1.0, 0.0);
 
     glPushMatrix();
@@ -203,6 +208,7 @@ void Robot::drawLowerBody()
     glPopMatrix();
     glPopMatrix();
 
+    glFlush();
     glPopMatrix();
 }
 
@@ -589,7 +595,7 @@ void Robot::walkForwardAnimation(){
     leftStepForwardAnimation();
     rightStepForwardAnimation();
     
-    z_pos -= 0.08;
+    z_pos -= 0.15;
 }
 
 void Robot::walkBackwardAnimation(){
