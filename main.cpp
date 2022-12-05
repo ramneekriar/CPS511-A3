@@ -285,7 +285,7 @@ void backwardStepHandler(int param)
 void laserAnimation(int param){
     if (laserVisible)
         laserVisible = false;
-    glutTimerFunc(5, laserAnimation, 0);
+    glutTimerFunc(1, laserAnimation, 0);
     glutPostRedisplay();
 }
 
@@ -295,7 +295,7 @@ void keyboard(unsigned char key, int x, int y)
     {
     case 32:
             laserVisible = true;
-            glutTimerFunc(5, laserAnimation, 0);
+            glutTimerFunc(1, laserAnimation, 0);
         break;
     }
 
