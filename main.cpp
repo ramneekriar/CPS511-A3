@@ -63,13 +63,19 @@ Player *playerPtr;
 Player player;
 
 Laser *laserPtr;
-Laser laser;
+Laser laser(0.0, 0.0, 28.0, 0.06, 100.0);
 
 Robot robot1(20.0, 20.0); //left
 Robot robot2(0.0, 0.0); //middle
 Robot robot3(-20.0, -20.0); //right
 
+Laser robot1Laser(16.0, 5.0, -20.0, 0.03, 100.0);
+Laser robot2Laser(0.0, 9.0, -15.0, 0.03, 100.0);
+Laser robot3Laser(-16.0, 5.0, -20.0, 0.03, 100.0);
+
 bool laserVisible = false;
+
+bool robotLaser2Visible = false;
 
 int main(int argc, char* argv[])
 {
@@ -84,16 +90,8 @@ int main(int argc, char* argv[])
 	//    glewinit();
 	glutDisplayFunc(display3D);
 	glutReshapeFunc(reshape3D);
-//    glutKeyboardFunc(keyboard);
 	glutPassiveMotionFunc(handleMouse);
     glutKeyboardFunc(keyboard);
-	/*glutMouseFunc(mouseButtonHandler3D);
-	glutMouseWheelFunc(mouseScrollWheelHandler3D);
-	glutMotionFunc(mouseMotionHandler3D);
-	glutKeyboardFunc(keyboardHandler3D);*/
-	// Initialize the 3D system
-//    glutTimerFunc(10, cannonAnimationHandler, 0);
-//    glutTimerFunc(1800*2, stepAnimationHandler, 0);
 	init3DSurfaceWindow();
 
 	// Annnd... ACTION!!
@@ -212,6 +210,11 @@ void display3D()
     robot1.drawRobot();
     robot2.drawRobot();
     robot3.drawRobot();
+    
+//    if (robotLaser2Visible)
+    robot1Laser.drawRobotLaser();
+    robot2Laser.drawRobotLaser();
+    robot3Laser.drawRobotLaser();
     
     robot1.respawn();
     robot2.respawn();

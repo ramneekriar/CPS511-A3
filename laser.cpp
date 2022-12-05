@@ -30,6 +30,15 @@ float laser_endY = 0.0;
 int laser_lastMouseX;
 int laser_lastMouseY;
 
+// laser constructor
+Laser::Laser(float x_param, float y_param, float z_param, float radius, float height){
+    x_pos = x_param;
+    y_pos = y_param;
+    z_pos = z_param;
+    laser_radius = radius;
+    laser_height = height;
+}
+
 void Laser::drawLaser(){
     
     glMaterialfv(GL_FRONT, GL_AMBIENT, quadMat_ambient);
@@ -45,6 +54,25 @@ void Laser::drawLaser(){
     glRotatef(laserAngleY, 0, 1, 0); //y-axis rotate
     glRotatef(180.0, 0, 1, 0);
     glRotatef(30, 0, 0, 1);
+    gluCylinder(gluNewQuadric(), laser_radius, laser_radius, laser_height, 100, 100);
+    
+    glPopMatrix();
+    glPopMatrix();
+}
+
+void Laser::drawRobotLaser(){
+    
+    glMaterialfv(GL_FRONT, GL_AMBIENT, quadMat_ambient);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, quadMat_specular);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, quadMat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SHININESS, quadMat_shininess);
+    
+    glPushMatrix();
+    glTranslatef(x_pos, y_pos, z_pos);
+
+    glPushMatrix();
+    glRotatef(200.0, 1, 0, 0);
+    glRotatef(180.0, 0, 1, 0);
     gluCylinder(gluNewQuadric(), laser_radius, laser_radius, laser_height, 100, 100);
     
     glPopMatrix();
