@@ -12,5 +12,5 @@ Requirements met:
 - Defensive cannon fires laser using Spacebar
 - Lasers are animated (both for robot and cannon)
 - Defensive cannon is mouse-controlled
-- Defensive cannon built using custom mesh
+- Defensive cannon built using custom mesh --> added createObj.c file and mesh.obj file (I coded the createObj.c file after A2)
 - Bonus -> Defensive cannon fires laser instead of projectile
