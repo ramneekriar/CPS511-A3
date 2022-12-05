@@ -11,6 +11,7 @@ void handleMouse(int x, int y);
 
 void drawGround();
 void animationHandler(int param);
+void laserAnimation(int param);
 void forwardStepHandler(int param);
 void stepHandler(int param);
 void backwardStepHandler(int param);
